@@ -38,7 +38,6 @@ labels <- labs(x = 'x', y = 'F(x) : Binomial CDF')
 graph <- graph + labels
 graph
 
-
 # Create CDF layer # Normal aproximation
 cdf.normal <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   pnorm(x, mean = mean, sd = sd)
@@ -67,10 +66,6 @@ asinth.axis <- geom_hline(yintercept = 1, size = 0.01)
 graph <- graph + asinth.axis
 graph
 
-vertical.line <- geom_vline(xintercept = 10, linetype = "dotted", color = "black", size = 1) 
+vertical.line <- geom_vline(xintercept = 10, linetype = "dotted", color = "black", size = 1)
 graph <- graph + vertical.line
 graph
-
-
-
-

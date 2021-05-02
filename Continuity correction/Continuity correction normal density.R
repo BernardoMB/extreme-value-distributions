@@ -8,15 +8,17 @@ p <- 1/2
 
 ## Code for PMF
 sup <- seq(0,n,1)
-probs <- dbinom(sup, size = n, prob = p)
-graph <- ggplot(data = data.frame(x = sup, y = probs, yend = rep(0,(n+1))), aes(x = x, y = y, xend = x, yend = yend)) +
+pmf <- dbinom(sup, size = n, prob = p)
+data <- data.frame(sup, pmf, yend = rep(0,(n+1)))
+
+graph <- ggplot(data, aes(x = sup, y = pmf)) +
   geom_point() +
-  geom_segment() +
+  geom_segment(aes(xend = sup, yend = yend)) +
   scale_x_continuous(name="\nValue of X",
-                     breaks=0:(n+1),
-                     limits = c(0, n+1)) +
+                     breaks=0:n,
+                     limits = c(0, n)) +
   scale_y_continuous(name="Probability\n",
-                     limits = c(0.0,0.2)) +
+                     limits = c(0.0,0.15)) +
   ggtitle("PMF for discrete random variable X\n") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
