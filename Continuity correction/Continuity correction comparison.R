@@ -3,9 +3,9 @@ library(grid)
 library(gridExtra)
 
 # Colors
-bw <- false
+bw <- FALSE
 if (bw) {
-  colors <- c('black', 'black', 'black', 'black', 'black', 'black')
+  colors <- c('black', 'black', 'black', 'black', 'black', 'black') 
 } else {
   colors <- c('goldenrod1', 'darkorange2', 'darkorange4', 'pink', 'deeppink1', 'purple')
 }
@@ -17,7 +17,7 @@ p <- 1/2
 
 # X intercept
 x.intercept <- 4
-vertical.line <- geom_vline(xintercept = x.intercept, linetype = 12, color = "pink", size = 1)
+vertical.line <- geom_vline(xintercept = x.intercept, linetype = 12, color = colors[1], size = 1)
 
 # --- CDF ----
 sup <- seq(0,n,1)
@@ -41,7 +41,7 @@ graph
 cdf.normal <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   pnorm(x, mean = mean, sd = sd)
 }
-cdf.plot.normal <- stat_function(fun = cdf.normal, color = 'red')
+cdf.plot.normal <- stat_function(fun = cdf.normal, color = colors[2])
 graph <- graph + cdf.plot.normal
 graph
 
@@ -49,7 +49,7 @@ graph
 cdf.normal.correction <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   pnorm(x - 0.5, mean = mean, sd = sd)
 }
-cdf.plot.normal.correction <- stat_function(fun = cdf.normal.correction, color = 'green', linetype = "dashed", size = 1)
+cdf.plot.normal.correction <- stat_function(fun = cdf.normal.correction, color = colors[3], linetype = "dashed", size = 1)
 graph <- graph + cdf.plot.normal.correction
 graph
 
@@ -57,7 +57,7 @@ graph
 cdf.normal.correction.2 <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   pnorm(x + 0.5, mean = mean, sd = sd)
 }
-cdf.plot.normal.correction.2 <- stat_function(fun = cdf.normal.correction.2, color = 'blue', linetype = "dotdash", size = 1)
+cdf.plot.normal.correction.2 <- stat_function(fun = cdf.normal.correction.2, color = colors[4], linetype = "dotdash", size = 1)
 graph <- graph + cdf.plot.normal.correction.2
 graph
 
@@ -70,7 +70,7 @@ pmf <- dbinom(sup, size = n, prob = p)
 pmf.data <- data.frame(sup, pmf, yend = rep(0,(n+1)))
 
 graph2 <- ggplot(pmf.data, aes(x = sup, y = pmf)) +
-  geom_col(stat="identity", color="black", fill="white", width = 1) +
+  geom_col(stat="identity", color="black", fill="white", width = 1, size = 1) +
   geom_point() +
   geom_segment(aes(xend = sup, yend = yend), color="grey", linetype="dashed") +
   geom_text(
@@ -92,7 +92,7 @@ graph2
 pdf.normal <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   dnorm(x, mean = mean, sd = sd)
 }
-pdf.plot.normal <- stat_function(fun = pdf.normal, color = 'red')
+pdf.plot.normal <- stat_function(fun = pdf.normal, color = colors[2])
 graph2 <- graph2 + pdf.plot.normal
 graph2
 
@@ -100,7 +100,7 @@ graph2
 pdf.normal.correction <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   dnorm(x - 0.5, mean = mean, sd = sd)
 }
-pdf.plot.normal.correction <- stat_function(fun = pdf.normal.correction, color = 'green', linetype = "dashed")
+pdf.plot.normal.correction <- stat_function(fun = pdf.normal.correction, color = colors[3], linetype = "dashed", size = 1)
 graph2 <- graph2 + pdf.plot.normal.correction
 graph2
 
@@ -108,7 +108,7 @@ graph2
 pdf.normal.correction.2 <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   dnorm(x + 0.5, mean = mean, sd = sd)
 }
-pdf.plot.normal.correction.2 <- stat_function(fun = pdf.normal.correction.2, color = 'blue', linetype = "dotdash", size = 1)
+pdf.plot.normal.correction.2 <- stat_function(fun = pdf.normal.correction.2, color = colors[4], linetype = "dotdash", size = 1)
 graph2 <- graph2 + pdf.plot.normal.correction.2
 graph2
 
