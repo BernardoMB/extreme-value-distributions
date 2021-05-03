@@ -2,6 +2,14 @@ library(ggplot2)
 library(grid)
 library(gridExtra)
 
+# Colors
+bw <- false
+if (bw) {
+  colors <- c('black', 'black', 'black', 'black', 'black', 'black')
+} else {
+  colors <- c('goldenrod1', 'darkorange2', 'darkorange4', 'pink', 'deeppink1', 'purple')
+}
+
 # n: Number of trials
 n <- 10
 # p: Probability of success
@@ -9,7 +17,7 @@ p <- 1/2
 
 # X intercept
 x.intercept <- 4
-vertical.line <- geom_vline(xintercept = x.intercept, linetype = "dashed", color = "green", size = 1)
+vertical.line <- geom_vline(xintercept = x.intercept, linetype = 12, color = "pink", size = 1)
 
 # --- CDF ----
 sup <- seq(0,n,1)
@@ -33,16 +41,24 @@ graph
 cdf.normal <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   pnorm(x, mean = mean, sd = sd)
 }
-cdf.plot.normal <- stat_function(fun = cdf.normal, color = 'blue')
+cdf.plot.normal <- stat_function(fun = cdf.normal, color = 'red')
 graph <- graph + cdf.plot.normal
 graph
 
-# Create CDF layer # Normal aproximation with correction
+# Create CDF layer # Normal aproximation with correction < x
 cdf.normal.correction <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   pnorm(x - 0.5, mean = mean, sd = sd)
 }
-cdf.plot.normal.correction <- stat_function(fun = cdf.normal.correction, color = 'red')
+cdf.plot.normal.correction <- stat_function(fun = cdf.normal.correction, color = 'green', linetype = "dashed", size = 1)
 graph <- graph + cdf.plot.normal.correction
+graph
+
+# Create CDF layer # Normal aproximation with correction <= x
+cdf.normal.correction.2 <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
+  pnorm(x + 0.5, mean = mean, sd = sd)
+}
+cdf.plot.normal.correction.2 <- stat_function(fun = cdf.normal.correction.2, color = 'blue', linetype = "dotdash", size = 1)
+graph <- graph + cdf.plot.normal.correction.2
 graph
 
 graph <- graph + vertical.line
@@ -54,7 +70,7 @@ pmf <- dbinom(sup, size = n, prob = p)
 pmf.data <- data.frame(sup, pmf, yend = rep(0,(n+1)))
 
 graph2 <- ggplot(pmf.data, aes(x = sup, y = pmf)) +
-  geom_col(stat="identity", color="black", fill="white") +
+  geom_col(stat="identity", color="black", fill="white", width = 1) +
   geom_point() +
   geom_segment(aes(xend = sup, yend = yend), color="grey", linetype="dashed") +
   geom_text(
@@ -76,16 +92,24 @@ graph2
 pdf.normal <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   dnorm(x, mean = mean, sd = sd)
 }
-pdf.plot.normal <- stat_function(fun = pdf.normal, color = 'blue')
+pdf.plot.normal <- stat_function(fun = pdf.normal, color = 'red')
 graph2 <- graph2 + pdf.plot.normal
 graph2
 
-# Create CDF layer # Normal aproximation
+# Create CDF layer # Normal aproximation < x
 pdf.normal.correction <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
   dnorm(x - 0.5, mean = mean, sd = sd)
 }
-pdf.plot.normal.correction <- stat_function(fun = pdf.normal.correction, color = 'red', linetype = "dashed")
+pdf.plot.normal.correction <- stat_function(fun = pdf.normal.correction, color = 'green', linetype = "dashed")
 graph2 <- graph2 + pdf.plot.normal.correction
+graph2
+
+# Create CDF layer # Normal aproximation <= x
+pdf.normal.correction.2 <- function(x, mean = n*p, sd = sqrt(n*p*(1-p))) {
+  dnorm(x + 0.5, mean = mean, sd = sd)
+}
+pdf.plot.normal.correction.2 <- stat_function(fun = pdf.normal.correction.2, color = 'blue', linetype = "dotdash", size = 1)
+graph2 <- graph2 + pdf.plot.normal.correction.2
 graph2
 
 graph2 <- graph2 + vertical.line
