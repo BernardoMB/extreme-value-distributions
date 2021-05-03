@@ -2,9 +2,9 @@ library(ggplot2)
 library(gridExtra)
 
 # n: Number of trials
-n <- 25
+n <- 10
 # p: Probability of success
-p <- 1/3
+p <- 1/2
 
 # Create CDF layer # Binomial distribution
 dat <- data.frame(x = 1:n, y = pbinom(q = 0:(n-1), size = n, prob = p))

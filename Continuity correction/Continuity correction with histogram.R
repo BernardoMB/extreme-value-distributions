@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 
 # n: Number of trials
-n <- 30
+n <- 10
 # p: Probability of success
 p <- 1/2
 
@@ -24,9 +24,9 @@ graph <- ggplot(data, aes(x = sup, y = pmf)) +
   scale_x_continuous(name="\nValue of X",
                      breaks=0:n,
                      limits = c(0, n)) +
-  labs(title = "Probability of X = x successes.",
-       x = "Successes (x)",
-       y = "probability") +
+  labs(title = "Normal aproximation",
+       x = "Value of x",
+       y = "P(x) vs. F(x)") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         text = element_text(size = 15))
@@ -48,7 +48,3 @@ pdf.plot.normal.correction <- stat_function(fun = pdf.normal.correction, color =
 graph <- graph + pdf.plot.normal.correction
 graph
 
-
-
-#binoms <- rbinom(10000, n, p)
-#qplot(binoms, geom="histogram") + pdf.plot.normal
